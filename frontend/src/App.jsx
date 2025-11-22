@@ -17,35 +17,37 @@ function App() {
     <div className="min-h-screen flex items-center justify-center flex-col" style={{ backgroundImage: `url('/back.jpeg')`, backgroundSize: 'cover' }}>
 
       {/* Title */}
-      <h1 className="text-4xl font-semibold text-center p-6 rounded-t-2xl bg-white/75">My List</h1>
+      <h1 className="text-4xl font-semibold text-center p-6 rounded-t-2xl bg-white/50">My List</h1>
 
-      {/* Table */}
-      <div className="bg-white/75 shadow-lg md:w-1/2 p-6 rounded-2xl text-gray-700">
-        <div>
-          <table className="table-auto w-full md:w-full">
-            <thead>
-              <tr className="border-b-2 border-gray-300 text-left text-sm uppercase">
-                <th className="px-6 py-3">No</th>
-                <th className="px-6 py-3">Name</th>
-                <th className="px-6 py-3">Description</th>
-                <th className="px-6 py-3">Actions</th>
+      {/* Tasks */}
+      <div className="bg-white/50 shadow-lg md:w-2/3 p-6 rounded-2xl text-gray-700">
+
+        {/* Input */}
+
+        {/* Table */}
+        <table className="table-auto w-full">
+          <thead>
+            <tr className="border-b-2 border-gray-300 text-left uppercase">
+              <th className="px-6 py-3">No</th>
+              <th className="px-6 py-3">Name</th>
+              <th className="px-6 py-3">Description</th>
+              <th className="px-6 py-3">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {todos.map((todo, index) => (
+              <tr key={todo._id} className="text-sm font-semibold">
+                <td className="px-6 py-3 whitespace-no-wrap">{index + 1}.</td>
+                <td className="px-6 py-3 whitespace-no-wrap">{todo.name}</td>
+                <td className="px-6 py-3 whitespace-no-wrap">{todo.description}</td>
+                <td className="px-6 py-3 flex items-center gap-2">
+                  <button className="cursor-pointer hover:scale-110">✏️</button>
+                  <button className="cursor-pointer hover:scale-110">🗑️</button>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {todos.map((todo, index) => (
-                <tr key={todo._id}>
-                  <td className="px-6 py-3 whitespace-no-wrap">{index + 1}</td>
-                  <td className="px-6 py-3 whitespace-no-wrap">{todo.name}</td>
-                  <td className="px-6 py-3 whitespace-no-wrap">{todo.description}</td>
-                  <td className="px-6 py-3 flex items-center gap-2">
-                    <button className="cursor-pointer hover:scale-110">✏️</button>
-                    <button className="cursor-pointer hover:scale-110">🗑️</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
