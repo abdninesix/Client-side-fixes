@@ -1,7 +1,7 @@
 import express from "express";
 import taskRouter from "./routes/taskRouter.js"
 import connectDB from "./config/db.js";
- import cors from "cors";
+import cors from "cors";
 
 const app = express();
 const port = process.env.PORT;
