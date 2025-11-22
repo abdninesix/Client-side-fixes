@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { format } from "timeago.js";
 
 function App() {
   const [todos, setTodos] = useState([]);
@@ -17,10 +18,10 @@ function App() {
     <div className="min-h-screen flex items-center justify-center flex-col" style={{ backgroundImage: `url('/back.jpeg')`, backgroundSize: 'cover' }}>
 
       {/* Title */}
-      <h1 className="text-4xl font-semibold text-center p-6 rounded-t-2xl bg-white/50">My List</h1>
+      <h1 className="text-4xl font-semibold text-center p-6 rounded-t-2xl bg-white/60">List</h1>
 
       {/* Tasks */}
-      <div className="bg-white/50 shadow-lg md:w-2/3 p-6 rounded-2xl text-gray-700">
+      <div className="bg-white/60 shadow-lg md:w-4/5 p-6 rounded-2xl text-gray-700">
 
         {/* Input */}
 
@@ -31,6 +32,7 @@ function App() {
               <th className="px-6 py-3">No</th>
               <th className="px-6 py-3">Name</th>
               <th className="px-6 py-3">Description</th>
+              <th className="px-6 py-3">Date</th>
               <th className="px-6 py-3">Actions</th>
             </tr>
           </thead>
@@ -40,6 +42,7 @@ function App() {
                 <td className="px-6 py-3 whitespace-no-wrap">{index + 1}.</td>
                 <td className="px-6 py-3 whitespace-no-wrap">{todo.name}</td>
                 <td className="px-6 py-3 whitespace-no-wrap">{todo.description}</td>
+                <td className="px-6 py-3 whitespace-no-wrap">Created {format(todo.createdAt)}</td>
                 <td className="px-6 py-3 flex items-center gap-2">
                   <button className="cursor-pointer hover:scale-110">✏️</button>
                   <button className="cursor-pointer hover:scale-110">🗑️</button>
