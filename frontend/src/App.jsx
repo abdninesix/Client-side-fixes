@@ -14,16 +14,28 @@ function App() {
   }, []);
 
   return (
-    <div>
-      <div className="h-2/3 w-2/3 bg-white flex">
-        <h1>ToDo List</h1>
+    <div className="min-h-screen flex items-center justify-center" style={{ backgroundImage: `url('/back.jpeg')`, backgroundSize: 'cover' }}>
+      <div className="bg-white/75 shadow-lg size-2/3 p-6 rounded-xl text-gray-700">
+        <h1 className="text-4xl font-semibold text-center">My List</h1>
         <div>
-          {todos.map((todo) => (
-            <div key={todo._id}>
-              <h2>{todo.name}</h2>
-              <p>{todo.description}</p>
-            </div>
-          ))}
+          <table className="table-auto w-full">
+            <thead>
+              <tr className="border-b-2 border-gray-300 text-left text-sm uppercase">
+                <th className="px-6 py-3">No</th>
+                <th className="px-6 py-3">Name</th>
+                <th className="px-6 py-3">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              {todos.map((todo, index) => (
+                <tr key={todo._id}>
+                  <td className="px-6 py-4 whitespace-no-wrap">{index + 1}</td>
+                  <td className="px-6 py-4 whitespace-no-wrap">{todo.name}</td>
+                  <td className="px-6 py-4 whitespace-no-wrap">{todo.description}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

@@ -6,17 +6,18 @@ import cors from "cors";
 const app = express();
 const port = process.env.PORT;
 
-connectDB();
-
 app.use(express.json());
+
+connectDB();
 
 app.use(cors());
 
 app.use('/todo', taskRouter )
+
 app.get('/', (req , res)=>{
-    res.send('Alisha Saif')
+    res.send('Todo API is running')
 })
 
 app.listen(port, () => {
-  console.log("Server is running");
+  console.log(`Server is running at ${port}`);
 });
