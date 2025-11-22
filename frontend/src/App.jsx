@@ -24,6 +24,7 @@ function App() {
                 <th className="px-6 py-3">No</th>
                 <th className="px-6 py-3">Name</th>
                 <th className="px-6 py-3">Description</th>
+                <th className="px-6 py-3">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -32,6 +33,10 @@ function App() {
                   <td className="px-6 py-4 whitespace-no-wrap">{index + 1}</td>
                   <td className="px-6 py-4 whitespace-no-wrap">{todo.name}</td>
                   <td className="px-6 py-4 whitespace-no-wrap">{todo.description}</td>
+                  <td className="px-6 py-4 flex items-center gap-2">
+                    <button className="cursor-pointer p-2 rounded-full hover:scale-110">✏️</button>
+                    <button className="cursor-pointer p-2 rounded-full hover:scale-110">🗑️</button>
+                  </td>
                 </tr>
               ))}
             </tbody>
