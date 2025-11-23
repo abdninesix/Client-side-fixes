@@ -16,7 +16,8 @@ function App() {
 
   return (
     <div className="min-h-screen flex items-center justify-center flex-col px-8" style={{ backgroundImage: `url('/back.jpeg')`, backgroundSize: 'cover' }}>
-      <div className="bg-white/60 shadow-lg w-full md:w-4/5 p-6 space-y-6 rounded-xl text-gray-600">
+      <span className="absolute top-4 rotate-5 text-lg font-semibold uppercase p-2 text-white bg-pink-300/60 rounded-full">Todo App by Ali Shah</span>
+      <div className="bg-white/60 shadow-lg w-full md:w-4/5 p-6 space-y-6 rounded-xl text-gray-600 duration-200">
 
         {/* Input */}
         <h1 className="text-4xl font-semibold">Add a new task</h1>
