@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { format } from "timeago.js";
 
 function App() {
   const [todos, setTodos] = useState([]);
@@ -14,17 +15,40 @@ function App() {
   }, []);
 
   return (
-    <div>
-      <div className="h-2/3 w-2/3 bg-white flex">
-        <h1>ToDo List</h1>
-        <div>
-          {todos.map((todo) => (
-            <div key={todo._id}>
-              <h2>{todo.name}</h2>
-              <p>{todo.description}</p>
+    <div className="min-h-screen flex items-center justify-center flex-col px-8" style={{ backgroundImage: `url('/back.jpeg')`, backgroundSize: 'cover' }}>
+      <span className="absolute top-4 rotate-5 text-lg font-semibold uppercase p-2 text-white bg-pink-300/60 rounded-full">Todo App by Ali Shah</span>
+      <div className="bg-white/60 shadow-lg w-full md:w-4/5 p-6 space-y-6 rounded-xl text-gray-600 duration-200">
+
+        {/* Input */}
+        <h1 className="text-4xl font-semibold">Add a new task</h1>
+
+        <form className="flex gap-2">
+          <div className="w-full flex flex-col gap-2">
+            <input type="text" placeholder="Name" className="bg-white rounded-md p-2 w-full" />
+            <input type="text" placeholder="Description" className="bg-white rounded-md p-2 w-full" />
+          </div>
+          <button className="bg-white rounded-md p-2 text-4xl cursor-pointer">+</button>
+        </form>
+
+        {/* Tasks */}
+        <h1 className="text-4xl font-semibold">All Todos</h1>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {todos.map((todo, index) => (
+            <div key={todo._id} className="flex items-center justify-between bg-white rounded-md p-6">
+              <div>
+                <h2 className="text-xl font-semibold">{todo.name}</h2>
+                <p className="text-base">{todo.description}</p>
+                <p className="text-xs">Created {format(todo.createdAt)}</p>
+              </div>
+              <div className="flex items-center gap-2 text-xl">
+                <button className="cursor-pointer hover:scale-110">✏️</button>
+                <button className="cursor-pointer hover:scale-110">🗑️</button>
+              </div>
             </div>
           ))}
         </div>
+
       </div>
     </div>
   );
