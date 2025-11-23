@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { format } from "timeago.js";
+import { toast } from 'react-toastify'
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
         setTodos([...todos, res.data]);
         setName("");
         setDescription("");
+        toast.success("Task added successfully");
       })
       .catch((error) => console.log("creating me error aa gia", error));
   };
@@ -34,6 +36,7 @@ function App() {
       .delete(`http://localhost:5000/todo/${id}`)
       .then((res) => {
         setTodos(todos.filter((todo) => todo._id !== id));
+        toast.success("Task deleted successfully");
       })
       .catch(console.log("error aa gia"));
   };
@@ -47,6 +50,7 @@ function App() {
             todo._id === editId ? res.data : todo
           )
         );
+        toast.success("Task updated successfully");
         setEditId(null);
         setName("");
         setDescription("");
@@ -64,7 +68,7 @@ function App() {
     <div className="min-h-screen flex items-center justify-center flex-col px-8" style={{ backgroundImage: `url('/back.jpeg')`, backgroundSize: "cover" }}>
 
       {/* Name */}
-      <span className="absolute top-10 text-xl font-bold uppercase p-2 text-white bg-red-300/60 rounded-xl">Todo by Ali Shah</span>
+      <span className="absolute left-6 top-6 text-xl font-bold uppercase p-2 text-white bg-green-300/50 rounded-xl">Todo by Ali Shah</span>
 
       <div className="bg-white/60 shadow-lg w-full md:w-4/5 p-6 space-y-6 rounded-xl text-gray-600 duration-200">
         {/* Input */}
@@ -74,7 +78,7 @@ function App() {
             e.preventDefault();
             editId ? updateTask() : addTask();
           }}
-          className="flex gap-6"
+          className="flex items-center gap-6"
         >
           <div className="w-full flex flex-col gap-6">
             <input
@@ -95,7 +99,7 @@ function App() {
               required
             />
           </div>
-          <button className="bg-white rounded-md p-2 text-4xl cursor-pointer">{editId ? "✔️" : "+"}</button>
+          <button className="text-4xl cursor-pointer">{editId ? "✔️" : "➕"}</button>
         </form>
 
         {/* Tasks */}
