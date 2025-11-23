@@ -40,7 +40,7 @@ function App() {
                 <p className="text-base">{todo.description}</p>
                 <p className="text-xs">Created {format(todo.createdAt)}</p>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 text-xl">
                 <button className="cursor-pointer hover:scale-110">✏️</button>
                 <button className="cursor-pointer hover:scale-110">🗑️</button>
               </div>
@@ -54,4 +54,3 @@ function App() {
 }
 
 export default App;
-
