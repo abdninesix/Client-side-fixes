@@ -3,6 +3,9 @@ import axios from "axios";
 import { format } from "timeago.js";
 
 function App() {
+
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
@@ -11,21 +14,51 @@ function App() {
       .then((res) => {
         setTodos(res.data);
       })
-      .catch(console.log("error aa gia"));
+      .catch(error => console.log("fetching me error aa gia", error));
   }, []);
+
+  const addTask = () => {
+    axios
+      .post("http://localhost:5000/todo", { name, description })
+      .then((res) => {
+        setTodos([...todos, res.data]);
+        setName("");
+        setDescription("");
+      })
+      .catch(error => console.log("creating me error aa gia", error));
+  }
+
+  const deleteTask = (id) => {
+    axios
+      .delete(`http://localhost:5000/todo/${id}`)
+      .then((res) => {
+        setTodos(todos.filter((todo) => todo._id !== id));
+      })
+      .catch(error => console.log("deleting me error aa gia", error));
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center flex-col px-8" style={{ backgroundImage: `url('/back.jpeg')`, backgroundSize: 'cover' }}>
-      <span className="absolute top-4 rotate-5 text-lg font-semibold uppercase p-2 text-white bg-pink-300/60 rounded-full">Todo App by Ali Shah</span>
-      <div className="bg-white/60 shadow-lg w-full md:w-4/5 p-6 space-y-6 rounded-xl text-gray-600 duration-200">
+      <span className="absolute top-4 rotate-5 text-lg font-semibold uppercase p-2 text-white bg-green-400/50 rounded-full">Todo App by Ali Shah</span>
+      <div className="bg-white/60 shadow-lg w-full md:max-w-6xl p-6 space-y-6 rounded-xl text-gray-600 duration-200">
 
         {/* Input */}
         <h1 className="text-4xl font-semibold">Add a new task</h1>
 
-        <form className="flex gap-2">
+        <form className="flex gap-2" action={addTask}>
           <div className="w-full flex flex-col gap-2">
-            <input type="text" placeholder="Name" className="bg-white rounded-md p-2 w-full" />
-            <input type="text" placeholder="Description" className="bg-white rounded-md p-2 w-full" />
+            <input
+              type="text"
+              placeholder="Name"
+              value={name}
+              onChange={e => setName(e.target.value)}
+              className="bg-white rounded-md p-2 w-full" />
+            <input
+              type="text"
+              placeholder="Description"
+              value={description}
+              onChange={e => setDescription(e.target.value)}
+              className="bg-white rounded-md p-2 w-full" />
           </div>
           <button className="bg-white rounded-md p-2 text-4xl cursor-pointer">+</button>
         </form>
@@ -33,7 +66,7 @@ function App() {
         {/* Tasks */}
         <h1 className="text-4xl font-semibold">All Todos</h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {todos.length > 0 ? (<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {todos.map((todo) => (
             <div key={todo._id} className="flex items-center justify-between bg-white rounded-md p-6">
               <div>
@@ -43,11 +76,11 @@ function App() {
               </div>
               <div className="flex items-center gap-2 text-xl">
                 <button className="cursor-pointer hover:scale-110">✏️</button>
-                <button className="cursor-pointer hover:scale-110">🗑️</button>
+                <button className="cursor-pointer hover:scale-110" onClick={() => deleteTask(todo._id)}>🗑️</button>
               </div>
             </div>
           ))}
-        </div>
+        </div>) : (<span className="font-semibold">List is empty.</span>)}
 
       </div>
     </div>
