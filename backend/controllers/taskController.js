@@ -3,8 +3,8 @@ import Task from "../models/task.js";
 // create task
 export const createTask = async (req, res) => {
   try {
-    await Task.create(req.body);
-    res.status(201).json({ message: "success in create task" });
+    const task=await Task.create(req.body);
+    res.status(201).json(task,{ message: "success in create task" });
   } catch (error) {
     res.status(500).json({ message: "fail in create task" });
   }
