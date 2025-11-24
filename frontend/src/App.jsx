@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { format } from "timeago.js";
-import { toast } from 'react-toastify'
+import { toast } from 'react-toastify';
 
 function App() {
 
