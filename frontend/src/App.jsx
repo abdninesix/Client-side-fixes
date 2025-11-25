@@ -5,11 +5,25 @@ import { toast } from 'react-toastify';
 
 function App() {
 
+  // Task states
   const [todos, setTodos] = useState([]);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [editId, setEditId] = useState(null);
 
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
+
+  // Paginations formula
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentTodos = todos.slice(indexOfFirstItem, indexOfLastItem);
+
+  const totalPages = Math.ceil(todos.length / itemsPerPage);
+
+
+  // Fetching data
   useEffect(() => {
     axios
       .get("http://localhost:5000/todo")
@@ -19,6 +33,7 @@ function App() {
       .catch(error => console.log("fetching me error aa gia", error));
   }, []);
 
+  // Adding task
   const addTask = () => {
     axios
       .post("http://localhost:5000/todo", { name, description })
@@ -31,6 +46,7 @@ function App() {
       .catch((error) => console.log("creating me error aa gia", error));
   };
 
+  // Deleting task
   const deleteTask = (id) => {
     axios
       .delete(`http://localhost:5000/todo/${id}`)
@@ -41,6 +57,7 @@ function App() {
       .catch(console.log("error aa gia"));
   };
 
+  // Updating task
   const updateTask = () => {
     axios
       .put(`http://localhost:5000/todo/${editId}`, { name, description })
@@ -58,6 +75,7 @@ function App() {
       .catch((err) => console.log("updating me error aa gia", err));
   };
 
+  // Enable Edit mode
   const startEdit = (todo) => {
     setEditId(todo._id);
     setName(todo.name);
@@ -68,7 +86,7 @@ function App() {
     <div className="min-h-screen flex items-center justify-center flex-col px-8" style={{ backgroundImage: `url('/back.jpeg')`, backgroundSize: "cover" }}>
 
       {/* Name */}
-      <span className="absolute left-6 top-6 text-xl font-bold uppercase p-2 text-white bg-green-300/50 rounded-xl">Todo by Ali Shah</span>
+      <span className="absolute left-2 top-2 text-xl font-bold uppercase p-2 text-white bg-green-300/50 rounded-lg">Todo by Ali Shah</span>
 
       <div className="bg-white/60 shadow-lg w-full md:w-4/5 p-6 space-y-6 rounded-xl text-gray-600 duration-200">
         {/* Input */}
@@ -80,7 +98,7 @@ function App() {
           }}
           className="flex items-center gap-6"
         >
-          <div className="w-full flex flex-col gap-6">
+          <div className="w-full space-y-6">
             <input
               type="text"
               placeholder="Name"
@@ -92,7 +110,6 @@ function App() {
             <textarea
               type="text"
               placeholder="Description"
-              rows={2}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               className="bg-white rounded-md p-2 outline-pink-300 w-full"
@@ -107,7 +124,7 @@ function App() {
 
         {todos.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {todos.map((todo) => (
+            {currentTodos.map((todo) => (
               <div key={todo._id} className="flex items-center justify-between bg-white rounded-md p-6">
                 <div>
                   <h2 className="text-xl font-semibold">{todo.name}</h2>
@@ -122,6 +139,15 @@ function App() {
             ))}
           </div>
         ) : (<p className="font-semibold">List is Empty</p>)}
+
+        {/* Pagination buttons */}
+        {todos.length > itemsPerPage && (
+          <div className="flex justify-center gap-4 text-lg font-semibold">
+            <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1} className="cursor-pointer">{"<"}</button>
+            <span>{currentPage} / {totalPages}</span>
+            <button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages} className="cursor-pointer">{">"}</button>
+          </div>
+        )}
       </div>
     </div>
   );
