@@ -83,22 +83,24 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center flex-col px-8" style={{ backgroundImage: `url('/back.jpeg')`, backgroundSize: "cover" }}>
+    <div className="min-h-screen flex items-center justify-center flex-col px-8 py-14" style={{ backgroundImage: `url('/back.jpeg')`, backgroundSize: "cover" }}>
 
       {/* Name */}
-      <span className="absolute left-2 top-2 text-xl font-bold uppercase p-2 text-white bg-green-300/50 rounded-lg">Todo by Ali Shah</span>
+      <span className="absolute  top-2 text-xl font-bold uppercase p-2 text-white bg-green-300/50 rounded-lg">Todo by Ali Shah</span>
 
-      <div className="bg-white/60 shadow-lg w-full md:w-4/5 p-6 space-y-6 rounded-xl text-gray-600 duration-200">
+      <div className="bg-white/60 shadow-lg w-full md:w-4/5 p-4 space-y-4 rounded-xl text-gray-600 duration-200">
+
         {/* Input */}
         <h1 className="text-4xl font-semibold">Add a new task</h1>
+
         <form
           onSubmit={(e) => {
             e.preventDefault();
             editId ? updateTask() : addTask();
           }}
-          className="flex items-center gap-6"
+          className="flex gap-4"
         >
-          <div className="w-full space-y-6">
+          <div className="w-full space-y-4">
             <input
               type="text"
               placeholder="Name"
@@ -116,16 +118,16 @@ function App() {
               required
             />
           </div>
-          <button className="text-4xl cursor-pointer">{editId ? "✔️" : "➕"}</button>
+          <button className="bg-white p-2 rounded-md text-3xl cursor-pointer">{editId ? "✔️" : "➕"}</button>
         </form>
 
         {/* Tasks */}
         <h1 className="text-4xl font-semibold">All Todos</h1>
 
         {todos.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {currentTodos.map((todo) => (
-              <div key={todo._id} className="flex items-center justify-between bg-white rounded-md p-6">
+              <div key={todo._id} className="flex items-center justify-between bg-white rounded-md p-4">
                 <div>
                   <h2 className="text-xl font-semibold">{todo.name}</h2>
                   <p className="text-base">{todo.description.length < 25 ? (todo.description) : (todo.description.slice(0, 25) + "...")}</p>
