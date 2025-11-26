@@ -118,7 +118,7 @@ function App() {
               required
             />
           </div>
-          <button className="bg-white p-2 rounded-md text-3xl cursor-pointer">{editId ? "✔️" : "➕"}</button>
+          <button className="bg-white p-1 rounded-md text-2xl cursor-pointer">{editId ? "✔️" : "➕"}</button>
         </form>
 
         {/* Tasks */}
@@ -144,7 +144,7 @@ function App() {
 
         {/* Pagination buttons */}
         {todos.length > itemsPerPage && (
-          <div className="flex justify-center gap-4 text-lg font-semibold">
+          <div className="flex justify-end gap-4 text-lg font-semibold">
             <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1} className="cursor-pointer">{"<"}</button>
             <span>{currentPage} / {totalPages}</span>
             <button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages} className="cursor-pointer">{">"}</button>
