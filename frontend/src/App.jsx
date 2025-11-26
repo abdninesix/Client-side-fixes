@@ -76,23 +76,29 @@ function App() {
   };
 
   // Enable Edit mode
-  const startEdit = (todo) => {
+  const enableEdit = (todo) => {
     setEditId(todo._id);
     setName(todo.name);
     setDescription(todo.description);
   };
 
+  // Disable Edit mode
+  const disableEdit = () => {
+    setEditId(null);
+    setName("");
+    setDescription("");
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center flex-col px-8 py-14" style={{ backgroundImage: `url('/back.jpeg')`, backgroundSize: "cover" }}>
 
-      {/* Name */}
+      {/* Logo */}
       <span className="absolute  top-2 text-xl font-bold uppercase p-2 text-white bg-green-300/50 rounded-lg">Todo by Ali Shah</span>
 
       <div className="bg-white/60 shadow-lg w-full md:w-4/5 p-4 space-y-4 rounded-xl text-gray-600 duration-200">
 
         {/* Input */}
         <h1 className="text-4xl font-semibold">Add a new task</h1>
-
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -118,12 +124,14 @@ function App() {
               required
             />
           </div>
-          <button className="bg-white p-1 rounded-md text-2xl cursor-pointer">{editId ? "✔️" : "➕"}</button>
+          <div className="flex flex-col items-center justify-center gap-4 text-2xl">
+            <button className="cursor-pointer bg-white p-1 rounded-md">{editId ? "✔️" : "➕"}</button>
+            {editId && (<button onClick={disableEdit} className="cursor-pointer bg-white p-1 rounded-md">❌</button>)}
+          </div>
         </form>
 
         {/* Tasks */}
         <h1 className="text-4xl font-semibold">All Todos</h1>
-
         {todos.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {currentTodos.map((todo) => (
@@ -134,22 +142,21 @@ function App() {
                   <p className="text-xs mt-2">Created {format(todo.createdAt)}</p>
                 </div>
                 <div className="flex flex-col items-center gap-2 text-xl">
-                  <button onClick={() => startEdit(todo)} className="cursor-pointer hover:scale-110">✏️</button>
+                  <button onClick={() => enableEdit(todo)} className="cursor-pointer hover:scale-110">✏️</button>
                   <button onClick={() => deleteTask(todo._id)} className="cursor-pointer hover:scale-110">🗑️</button>
                 </div>
               </div>
             ))}
           </div>
-        ) : (<p className="font-semibold">List is Empty</p>)}
+        ) : (<p className="font-semibold">No todos added yet</p>)}
 
         {/* Pagination buttons */}
-        {todos.length > itemsPerPage && (
-          <div className="flex justify-end gap-4 text-lg font-bold">
-            <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1} className="cursor-pointer">{"<"}</button>
-            <span>{currentPage} / {totalPages}</span>
-            <button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages} className="cursor-pointer">{">"}</button>
-          </div>
-        )}
+        <div className="flex justify-center gap-4 text-lg font-bold">
+          {currentPage !== 1 && (<button onClick={() => setCurrentPage(currentPage - 1)} className="cursor-pointer">⬅️</button>)}
+          <span>{currentPage} / {totalPages}</span>
+          {currentPage !== totalPages && (<button onClick={() => setCurrentPage(currentPage + 1)} className="cursor-pointer">➡️</button>)}
+        </div>
+
       </div>
     </div>
   );
