@@ -144,7 +144,7 @@ function App() {
 
         {/* Pagination buttons */}
         {todos.length > itemsPerPage && (
-          <div className="flex justify-end gap-4 text-lg font-semibold">
+          <div className="flex justify-end gap-4 text-lg font-bold">
             <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1} className="cursor-pointer">{"<"}</button>
             <span>{currentPage} / {totalPages}</span>
             <button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages} className="cursor-pointer">{">"}</button>
