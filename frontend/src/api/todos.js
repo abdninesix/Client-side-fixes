@@ -3,7 +3,7 @@
 //POST request
 const addTask = () => {
     axios
-        .post("http://localhost:5000/todo", { name, description })
+        .post(`${baseURL}/todo`, { name, description })
         .then((res) => {
             setTodos([...todos, res.data]);
             setName("");
