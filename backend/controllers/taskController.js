@@ -3,18 +3,18 @@ import Task from "../models/task.js";
 // create task
 export const createTask = async (req, res) => {
   try {
-    const task=await Task.create(req.body);
-    res.status(201).json(task,{ message: "success in create task" });
+    const task = await Task.create(req.body);
+    res.status(201).json(task, { message: "success in create task" });
   } catch (error) {
     res.status(500).json({ message: "fail in create task" });
   }
 };
 
-// read aLL task
+// read aLL tasks
 export const readAllTask = async (req, res) => {
   try {
     const tasks = await Task.find();
-    res.json(tasks);
+    res.json(tasks.reverse());
   } catch (error) {
     res.status(500).json({ message: "Error in getting tasks" });
   }
@@ -34,7 +34,7 @@ export const readSingleTask = async (req, res) => {
 export const updateTask = async (req, res) => {
   try {
     const task = await Task.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true });
-    res.status(200).json(task, { message: "success in updating task" });
+    res.status(200).json(task, { message: "Success in updating task" });
   } catch (error) {
     res.status(500).json({ message: "Error in updating task" });
   }
