@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { format } from "timeago.js";
 import { toast } from 'react-toastify';
@@ -13,35 +13,41 @@ function App() {
 
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const itemsPerPage = 6;
 
-  // Paginations formula
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentTodos = todos.slice(indexOfFirstItem, indexOfLastItem);
+  // Frontend Paginations formula
+  // const indexOfLastItem = currentPage * itemsPerPage;
+  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  // const currentTodos = todos.slice(indexOfFirstItem, indexOfLastItem);
 
-  const totalPages = Math.ceil(todos.length / itemsPerPage);
+  // const totalPages = Math.ceil(todos.length / itemsPerPage);
 
 
   // Fetching data
-  useEffect(() => {
+  const fetchTasks = useCallback(() => {
     axios
-      .get("http://localhost:5000/todo")
+      .get(`http://localhost:5000/todo?page=${currentPage}&limit=${itemsPerPage}`)
       .then((res) => {
-        setTodos(res.data);
+        setTodos(res.data.tasks);
+        setTotalPages(res.data.totalPages || 1);
       })
-      .catch(error => console.log("fetching me error aa gia", error));
-  }, []);
+      .catch(error => console.log("Fetch error", error));
+  }, [currentPage]);
+
+  useEffect(() => {
+    fetchTasks();
+  }, [fetchTasks]);
 
   // Adding task
   const addTask = () => {
     axios
       .post("http://localhost:5000/todo", { name, description })
       .then((res) => {
-        setTodos([...todos, res.data]);
         setName("");
         setDescription("");
         toast.success("Task added successfully");
+        fetchTasks();
       })
       .catch((error) => console.log("creating me error aa gia", error));
   };
@@ -51,8 +57,8 @@ function App() {
     axios
       .delete(`http://localhost:5000/todo/${id}`)
       .then((res) => {
-        setTodos(todos.filter((todo) => todo._id !== id));
         toast.success("Task deleted successfully");
+        fetchTasks();
       })
       .catch(console.log("error aa gia"));
   };
@@ -62,15 +68,11 @@ function App() {
     axios
       .put(`http://localhost:5000/todo/${editId}`, { name, description })
       .then((res) => {
-        setTodos(
-          todos.map((todo) =>
-            todo._id === editId ? res.data : todo
-          )
-        );
-        toast.success("Task updated successfully");
         setEditId(null);
         setName("");
         setDescription("");
+        toast.success("Task updated successfully");
+        fetchTasks();
       })
       .catch((err) => console.log("updating me error aa gia", err));
   };
@@ -93,7 +95,7 @@ function App() {
     <div className="min-h-screen flex items-center justify-center flex-col px-8 py-14" style={{ backgroundImage: `url('/back.jpeg')`, backgroundSize: "cover" }}>
 
       {/* Logo */}
-      <span className="absolute  top-2 text-xl font-bold uppercase p-2 text-white bg-green-300/50 rounded-lg">Todo by Ali Shah</span>
+      <span className="absolute  top-2 text-xl font-bold uppercase p-2 text-white bg-green-300/50 rounded-lg">Todo by Lishoo</span>
 
       <div className="bg-white/60 shadow-lg w-full md:w-4/5 p-4 space-y-4 rounded-xl text-gray-600 duration-200">
 
@@ -134,11 +136,11 @@ function App() {
         <h1 className="text-4xl font-semibold">All Todos</h1>
         {todos.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {currentTodos.map((todo) => (
+            {todos.map((todo) => (
               <div key={todo._id} className="flex items-center justify-between bg-white rounded-md p-4">
                 <div>
                   <h2 className="text-xl font-semibold">{todo.name}</h2>
-                  <p className="text-base">{todo.description.length < 25 ? (todo.description) : (todo.description.slice(0, 25) + "...")}</p>
+                  <p className="text-base">{todo.description?.length < 25 ? (todo.description) : (todo.description.slice(0, 25) + "...")}</p>
                   <p className="text-xs mt-2">Created {format(todo.createdAt)}</p>
                 </div>
                 <div className="flex flex-col items-center gap-2 text-xl">
@@ -154,7 +156,7 @@ function App() {
         <div className="flex justify-center gap-4 text-lg font-bold">
           {currentPage !== 1 && (<button onClick={() => setCurrentPage(currentPage - 1)} className="cursor-pointer">⬅️</button>)}
           <span>{currentPage} / {totalPages}</span>
-          {currentPage !== totalPages && (<button onClick={() => setCurrentPage(currentPage + 1)} className="cursor-pointer">➡️</button>)}
+          {currentPage !== totalPages && (<button onClick={() => setCurrentPage(prev => prev + 1)} className="cursor-pointer">➡️</button>)}
         </div>
 
       </div>
