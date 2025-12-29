@@ -97,7 +97,7 @@ function App() {
       {/* Logo */}
       <span className="absolute  top-2 text-xl font-bold uppercase p-2 text-white bg-green-300/50 rounded-lg">Todo by Lishoo</span>
 
-      <div className="bg-white/60 shadow-lg w-full md:w-4/5 p-4 space-y-4 rounded-xl text-gray-600 duration-200">
+      <div className="bg-white/50 shadow-lg w-full md:w-4/5 p-4 space-y-4 rounded-xl text-gray-600 duration-200">
 
         {/* Input */}
         <h1 className="text-4xl font-semibold">Add a new task</h1>
