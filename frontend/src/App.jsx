@@ -154,9 +154,9 @@ function App() {
 
         {/* Pagination buttons */}
         <div className="flex justify-center gap-4 text-lg font-bold">
-          {currentPage !== 1 && (<button onClick={() => setCurrentPage(currentPage - 1)} className="cursor-pointer">⬅️</button>)}
+          <button onClick={() => setCurrentPage(currentPage - 1)} className={currentPage === 1 ? "opacity-50" : "cursor-pointer"} disabled={currentPage === 1}>⬅️</button>
           <span>{currentPage} / {totalPages}</span>
-          {currentPage !== totalPages && (<button onClick={() => setCurrentPage(prev => prev + 1)} className="cursor-pointer">➡️</button>)}
+          <button onClick={() => setCurrentPage(prev => prev + 1)} className={currentPage === totalPages ? "opacity-50" : "cursor-pointer"} disabled={currentPage === totalPages}>➡️</button>
         </div>
 
       </div>
