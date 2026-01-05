@@ -24,6 +24,7 @@ export const readAllTask = async (req, res) => {
     res.json({page, limit, total, totalPages, tasks});
   } catch (error) {
     res.status(500).json({ message: "Error in getting tasks" });
+    
   }
 };
 

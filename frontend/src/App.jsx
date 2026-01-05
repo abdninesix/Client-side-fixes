@@ -11,7 +11,7 @@ function App() {
   const [description, setDescription] = useState("");
   const [editId, setEditId] = useState(null);
 
-  // Pagination states
+// Pagination states
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const itemsPerPage = 6;
