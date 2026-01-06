@@ -11,24 +11,24 @@ function App() {
   const [description, setDescription] = useState("");
   const [editId, setEditId] = useState(null);
 
-  // Pagination states
+// Pagination states
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, settotalPages] = useState();
   const itemsPerPage = 6;
-
+/*
   // Paginations formula
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentTodos = todos.slice(indexOfFirstItem, indexOfLastItem);
-
   const totalPages = Math.ceil(todos.length / itemsPerPage);
-
-
+*/
   // Fetching data
   useEffect(() => {
     axios
-      .get("http://localhost:5000/todo")
+      .get(`http://localhost:5000/todo?page=${currentPage}&limit=${itemsPerPage}`)
       .then((res) => {
-        setTodos(res.data);
+        setTodos(res.data.tasks);
+        settotalPages(res.data.totalPages)
       })
       .catch(error => console.log("fetching me error aa gia", error));
   }, []);
@@ -134,7 +134,7 @@ function App() {
         <h1 className="text-4xl font-semibold">All Todos</h1>
         {todos.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {currentTodos.map((todo) => (
+            {todos.map((todo) => (
               <div key={todo._id} className="flex items-center justify-between bg-white rounded-md p-4">
                 <div>
                   <h2 className="text-xl font-semibold">{todo.name}</h2>
